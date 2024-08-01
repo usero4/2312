@@ -12,9 +12,9 @@ genai.configure(api_key=API_KEY)
 
 # تكوين الإنتاج
 generation_config = {
-    "temperature": 1,  # درجة الحرارة، تحكم تباين الإخراج
+    "temperature": 0,  # درجة الحرارة، تحكم تباين الإخراج
     "top_p": 0.95,  # أعلى احتمال تراكمي
-    "top_k": 1,  # أعلى قيمة k
+    "top_k": 64,  # أعلى قيمة k
     "max_output_tokens": 8192,  # الحد الأقصى لعدد التوكنات في الإخراج
     "response_mime_type": "text/plain",  # نوع MIME للاستجابة
 }
