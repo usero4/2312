@@ -47,13 +47,14 @@ def main():
     st.subheader('Made with ❤️ by [Skirano](https://x.com/skirano)')
 
     text_file = st.text_area("set your text here")
+    text_file = Path.write(temp_text.txt)
 
     if st.button("Code UI"):
         try:      
           
             # Generate UI description
                 st.write("🧑‍💻 Looking at your UI...")
-                prompt = "ترجم التالي إلى العربية"
+                prompt = "ترجم التالي {text_file} إلى العربية"
                 description = send_message_to_model(prompt)
                 st.write(description)
 
