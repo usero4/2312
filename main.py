@@ -50,7 +50,7 @@ def main():
     st.title("Gemini 1.5 Pro, UI to Code 👨‍💻 ")
     st.subheader('Made with ❤️ by [Skirano](https://x.com/skirano)')
 
-    text_file = st.text_area("set your text here"])
+    text_file = st.text_area("set your text here")
 
     if text_file is not None:
         try:      
