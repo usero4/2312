@@ -54,8 +54,8 @@ def main():
             # Generate UI description
             if st.button("Code UI"):
                 st.write("🧑‍💻 Looking at your UI...")
-                prompt = "ترجم التالي (text_file) إلى العربية"
-                description = send_message_to_model(prompt)
+                prompt = "ترجم التالي إلى العربية"
+                description = send_message_to_model((prompt, text_file))
                 st.write(description)
 
                 # Refine the description
