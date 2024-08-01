@@ -1,5 +1,5 @@
 import streamlit as st
-import pathlib
+from pathlib import Path
 import google.generativeai as genai
 
 # Configure the API key directly in the script
@@ -40,7 +40,7 @@ chat_session = model.start_chat(history=[])
 def send_message_to_model(message, text_path):
     text_input = {
         'mime_type': 'text',
-        'data': pathlib.Path(text_path).read_text()
+        'data': Path(text_path).read_text()
     }
     response = chat_session.send_message([message, text_input])
     return response.text
@@ -56,7 +56,7 @@ def main():
         try:      
 
             # Save the text temporarily
-            temp_text_path = pathlib.Path("temp_text.txt")
+            temp_text_path = Path("temp_text.txt")
             temp_text_path.read(text_file)
 
             # Generate UI description
