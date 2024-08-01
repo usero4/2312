@@ -3,14 +3,14 @@ import pathlib
 import google.generativeai as genai
 
 # Configure the API key directly in the script
-API_KEY = 'AIzaSyDMlyV1-x32KlZa3Q-bUg2qIA3HkYrMMRY'
+API_KEY = 'AIzaSyC0US-sr4H1Y-BS4vFuGsB81Oxaqy6pixA'
 genai.configure(api_key=API_KEY)
 
 # Generation configuration
 generation_config = {
     "temperature": 1,
     "top_p": 0.95,
-    "top_k": 64,
+    "top_k": 10,
     "max_output_tokens": 8192,
     "response_mime_type": "text/plain",
 }
@@ -24,7 +24,7 @@ safety_settings = [
 ]
 
 # Model name
-MODEL_NAME = "gemini-1.5-pro-latest"
+MODEL_NAME = "gemini-1.5-pro"
 
 # Create the model
 model = genai.GenerativeModel(
@@ -58,10 +58,10 @@ def main():
             temp_text_path = pathlib.Path("temp_text.txt")
             temp_text_path.write_text(text_input)
 
-            # Generate code from text
+            # Generate translate from text
             if st.button("ترجمة النصوص"):
                 st.write("🧑‍💻 جاري الترجمة...")
-                prompt = "قم بالترجمة إلى العربية"
+                prompt = "أريد منك الترجمة إلى العربية"
                 translate_output = send_message_to_model(prompt, temp_text_path)
                 st.write(translate_output)
 
