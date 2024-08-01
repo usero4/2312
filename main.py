@@ -10,7 +10,7 @@ genai.configure(api_key=API_KEY)
 generation_config = {
     "temperature": 1,  # درجة الحرارة، تحكم تباين الإخراج
     "top_p": 0.95,  # أعلى احتمال تراكمي
-    "top_k": 14,  # أعلى قيمة k
+    "top_k": 1,  # أعلى قيمة k
     "max_output_tokens": 8192,  # الحد الأقصى لعدد التوكنات في الإخراج
     "response_mime_type": "text/plain",  # نوع MIME للاستجابة
 }
@@ -47,13 +47,14 @@ def main():
     st.subheader('Made with ❤️ by [Skirano](https://x.com/skirano)')
 
     text_file = st.text_area("set your text here")
+    target_lang = st.text_input("set the target language here")
 
-    if st.button("Code UI"):
+    if st.button("start translation"):
         try:      
-          
+            
             # Generate UI description
                 st.write("🧑‍💻 Looking at your UI...")
-                prompt = f"translate to Arabic\"{text_file}\"" 
+                prompt = f"translate to :{target_lang}, {text_file}" 
                 description = send_message_to_model(prompt)
                 st.write(description)
 
@@ -76,12 +77,12 @@ def main():
                 st.write(refined_html, language='html')
 
                 # Save the refined HTML to a file
-                with open("index.html", "w") as file:
+                with open("translate.txt", "w") as file:
                     file.write(refined_html)
-                st.success("HTML file 'index.html' has been created.")
+                st.success("translation file 'translate.txt' has been created.")
 
                 # Provide download link for HTML
-                st.download_button(label="Download HTML", data=refined_html.encode(), file_name="index.html", mime="text/html")
+                st.download_button(label="Download translate, data=refined_html.encode(), file_name="translate.txt", mime="text")
         except Exception as e:
             st.error(f"An error occurred: {e}")
 
