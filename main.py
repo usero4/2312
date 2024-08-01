@@ -82,7 +82,8 @@ def main():
                 st.success("translation file 'translate.txt' has been created.")
 
                 # Provide download link for HTML
-                st.download_button(label="Download translate, data=refined_html.encode(), file_name="translate.txt", mime="text/plain")
+                st.download_button(label="Download translate", data=refined_html.encode(), file_name="translate.txt", mime="text/plain")
+
         except Exception as e:
             st.error(f"An error occurred: {e}")
 
