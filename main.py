@@ -1,6 +1,7 @@
 import streamlit as st
 from pathlib import Path
 import google.generativeai as genai
+import pdfkit  # استيراد مكتبة pdfkit
 
 # تكوين مفتاح الـ API مباشرة في البرنامج (يجب تجنب هذا في الإنتاج)
 API_KEY = 'AIzaSyDMlyV1-x32KlZa3Q-bUg2qIA3HkYrMMRY'
@@ -89,16 +90,30 @@ def main():
                 refined_html = send_message_to_model(refine_html_prompt)
                 st.write(refined_html, language='html')
 
-                # Save the refined HTML to a file
-                with open("translate.txt", "w") as file:
-                    file.write(refined_html)
-                st.success("translation file 'translate.txt' has been created.")
+            # تحويل HTML إلى PDF
+            pdfkit.from_file("temp.html", "translate.pdf")
 
-                # Provide download link for HTML
-                st.download_button(label="Download translate", data=refined_html.encode(), file_name="translate.txt", mime="text/plain")
+            # توفير خيارات التحميل
+            col1, col2 = st.columns(2)
+            with col1:
+                st.download_button(
+                    label="Download HTML",
+                    data=refined_html.encode(),
+                    file_name="translate.html",
+                    mime="text/html",
+                )
+            with col2:
+                with open("translate.pdf", "rb") as pdf_file:
+                    PDFbyte = pdf_file.read()
+                st.download_button(
+                    label="Download PDF",
+                    data=PDFbyte,
+                    file_name="translate.pdf",
+                    mime="application/pdf",
+                )
 
         except StopTranslation as e:
-            st.warning(str(e))  # عرض رسالة الإيقاف
+            st.warning(str(e))
         except Exception as e:
             st.error(f"An error occurred: {e}")
 
