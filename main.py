@@ -56,8 +56,8 @@ def main():
         try:      
 
             # Save the text temporarily
-        temp_text_path = Path("temp_text.txt")
-        with temp_text_path.open("w") as file:
+            temp_text_path = Path("temp_text.txt")
+            with temp_text_path.open("w") as file:
             file.write(text_file)
             
             # Generate UI description
