@@ -56,7 +56,7 @@ def main():
             st.write("🧑‍💻 Looking at your UI...")
             prompt = f"translate to :{target_lang}, {text_file}" 
             description = ""
-            for chunk in send_message_to_model(prompt, stream=True):
+            for chunk in send_message_to_model(prompt):
                 description += chunk
                 st.write(description)
 
