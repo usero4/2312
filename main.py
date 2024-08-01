@@ -67,7 +67,7 @@ def main():
             # Generate UI description
             check_for_stop()  # التحقق من طلب الإيقاف
             st.write("🧑‍💻 Looking at your UI...")
-            prompt = f"Write a dictionary in the format "source language name, target language name, gender" target language is :{target_lang}, {text_file}"
+            prompt = f"Write a dictionary in the format " source language name, target language name, gender " target language is :{target_lang}, {text_file}"
             description = send_message_to_model(prompt)
             st.write(dictionary)
 
