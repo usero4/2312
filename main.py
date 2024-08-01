@@ -5,7 +5,7 @@ import os
 import base64
 
 # Load API key from environment variable
-API_KEY = os.getenv('AIzaSyDMlyV1-x32KlZa3Q-bUg2qIA3HkYrMMRY')
+API_KEY = os.getenv(AIzaSyDMlyV1-x32KlZa3Q-bUg2qIA3HkYrMMRY)
 if not API_KEY:
     st.error("API key not found. Please set the GENAI_API_KEY environment variable.")
     st.stop()
