@@ -61,7 +61,7 @@ def main():
             # Generate translate from text
             if st.button("ترجمة النصوص"):
                 st.write("🧑‍💻 جاري الترجمة...")
-                prompt = "أريد منك الترجمة إلى العربية"
+                prompt = "translate to Arabic"
                 translate_output = send_message_to_model(prompt, temp_text_path)
                 st.write(translate_output)
 
