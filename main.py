@@ -79,13 +79,13 @@ def main():
 
             # Generate HTML
             st.write("🛠️ Generating website...")
-            translation_2 = f"continue translate to :{target_lang}, {text_file}"
+            translation_2 = f"continue translate to :{target_lang}, {dictionary}, {text_file} {trans_1}"
             trans_2 = send_message_to_model(translation_2)
             st.write(trans_2)
 
             # Refine HTML
             st.write("🔧 Refining website...")
-            translation_3 = f"continue translate to :{target_lang}, {text_file}"
+            translation_3 = f"continue translate to :{target_lang}, {dictionary}, {text_file} {trans_2}"
             trans_3 = send_message_to_model(translation_3)
             st.write(trans_3)
 
