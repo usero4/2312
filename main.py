@@ -57,7 +57,7 @@ def main():
 
             # Save the text temporarily
             temp_text_path = Path("temp_text.txt")
-            temp_text_path.read(text_file)
+            temp_text_path.st(text_file)
 
             # Generate UI description
             if st.button("Code UI"):
