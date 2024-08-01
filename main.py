@@ -7,7 +7,7 @@ API_KEY = 'AIzaSyDMlyV1-x32KlZa3Q-bUg2qIA3HkYrMMRY'
 genai.configure(api_key=API_KEY)
 
 def check_for_stop(user_input):
-    if user_input.lower() == "stop translation":
+    if st.button(stop translation)
         st.warning("تم إيقاف الترجمة بناءً على طلبك.")
         raise StopIteration
         
