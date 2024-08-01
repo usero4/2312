@@ -56,7 +56,7 @@ def main():
         try:
             # Save the text file file temporarily
             temp_text_path = pathlib.Path("temp_text.txt")
-            temp_text_path.write_text(text_input.read().decode("utf-8"))
+            temp_text_path.write_text(text_input)
 
             # Generate code from text
             if st.button("ترجمة النصوص"):
