@@ -67,31 +67,31 @@ def main():
             # Generate UI description
             check_for_stop()  # التحقق من طلب الإيقاف
             st.write("🧑‍💻 Looking at your UI...")
-            prompt = f"translate to :{target_lang}, {text_file}"
+            prompt = f"Write a dictionary in the format "source language name, target language name, gender" target language is :{target_lang}, {text_file}"
             description = send_message_to_model(prompt)
-            st.write(description)
+            st.write(dictionary)
 
             # Refine the description
             st.write("🔍 Refining description with visual comparison...")
-            refine_prompt = f"Compare the described UI elements with the provided text and identify any missing elements or inaccuracies. Also Describe the color of the elements. Provide a refined and accurate description of the UI elements based on this comparison. Here is the initial description: {description}"
-            refined_description = send_message_to_model(refine_prompt)
-            st.write(refined_description)
+            translation_1 = f"translate to :{target_lang}, {dictionary}, {text_file}"
+            trans_1 = send_message_to_model(translation_1)
+            st.write(trans_1)
 
             # Generate HTML
             st.write("🛠️ Generating website...")
-            html_prompt = f"Create an HTML file based on the following UI description, using the UI elements described in the previous response. Include CSS within the HTML file to style the elements. Make sure the colors used are the same as the original UI. The UI needs to be responsive and mobile-first, matching the original UI as closely as possible. Do not include any explanations or comments. Avoid using ```html. and ``` at the end. ONLY return the HTML code with inline CSS. Here is the refined description: {refined_description}"
-            initial_html = send_message_to_model(html_prompt)
-            st.write(initial_html, language='html')
+            translation_2 = f"continue translate to :{target_lang}, {text_file}"
+            trans_2 = send_message_to_model(translation_2)
+            st.write(trans_2)
 
             # Refine HTML
             st.write("🔧 Refining website...")
-            refine_html_prompt = f"Validate the following HTML code based on the UI description and text and provide a refined version of the HTML code with CSS that improves accuracy, responsiveness, and adherence to the original design. ONLY return the refined HTML code with inline CSS. Avoid using ```html. and ``` at the end. Here is the initial HTML: {initial_html}"
-            refined_html = send_message_to_model(refine_html_prompt)
-            st.write(refined_html, language='html')
+            translation_3 = f"continue translate to :{target_lang}, {text_file}"
+            trans_3 = send_message_to_model(translation_3)
+            st.write(trans_3)
 
             # تحويل HTML إلى PDF باستخدام WeasyPrint
             with open("temp.html", "w", encoding="utf-8") as f:
-                f.write(refined_html)
+                f.write(trans_1, trans_2, trans_3)
             HTML("temp.html").write_pdf("translate.pdf")
 
             # توفير خيارات التحميل
