@@ -4,7 +4,7 @@ import PyPDF2
 import google.generativeai as genai
 
 # تكوين مفتاح الـ API مباشرة في البرنامج
-API_KEY = 'YOUR KEY'
+API_KEY = 'AIzaSyDMlyV1-x32KlZa3Q-bUg2qIA3HkYrMMRY'
 genai.configure(api_key=API_KEY)
 
 # تكوين الإنتاج
