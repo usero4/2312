@@ -1,8 +1,8 @@
 import streamlit as st
 from pathlib import Path
 import google.generativeai as genai
-import pdfkit  # استيراد مكتبة pdfkit
 import os
+from weasyprint import HTML  # استيراد مكتبة WeasyPrint
 
 # تكوين مفتاح الـ API من متغير بيئي
 API_KEY = os.getenv('GOOGLE_API_KEY')
@@ -92,10 +92,10 @@ def main():
             refined_html = send_message_to_model(refine_html_prompt)
             st.write(refined_html, language='html')
 
-            # تحويل HTML إلى PDF
+            # تحويل HTML إلى PDF باستخدام WeasyPrint
             with open("temp.html", "w", encoding="utf-8") as f:
                 f.write(refined_html)
-            pdfkit.from_file("temp.html", "translate.pdf", options={"enable-local-file-access": ""})
+            HTML("temp.html").write_pdf("translate.pdf")
 
             # توفير خيارات التحميل
             col1, col2 = st.columns(2)
