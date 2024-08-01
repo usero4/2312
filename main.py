@@ -51,7 +51,7 @@ class StopTranslation(Exception):
 
 # دالة للتحقق من طلب إيقاف الترجمة
 def check_for_stop():
-    if st.button("stop translation"):
+    if st.button("stop translation", key="stop_button"):
         raise StopTranslation("تم إيقاف الترجمة بناءً على طلبك.")
 
 # Streamlit app
@@ -62,7 +62,7 @@ def main():
     text_file = st.text_area("set your text here")
     target_lang = st.text_input("set the target language here")
 
-    if st.button("start translation"):
+    if st.button("start translation", key="start_button"):
         try:
             # Generate UI description
             check_for_stop()  # التحقق من طلب الإيقاف
@@ -105,6 +105,7 @@ def main():
                     data=refined_html.encode(),
                     file_name="translate.html",
                     mime="text/html",
+                    key="download_html_button"
                 )
             with col2:
                 with open("translate.pdf", "rb") as pdf_file:
@@ -114,6 +115,7 @@ def main():
                     data=PDFbyte,
                     file_name="translate.pdf",
                     mime="application/pdf",
+                    key="download_pdf_button" 
                 )
 
         except StopTranslation as e:
