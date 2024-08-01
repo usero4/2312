@@ -1,6 +1,5 @@
 import streamlit as st
 from pathlib import path
-from PIL import Image  # لا نحتاجها في هذا السيناريو
 import google.generativeai as genai
 
 # تكوين مفتاح الـ API مباشرة في البرنامج (يجب تجنب هذا في الإنتاج)
