@@ -90,12 +90,10 @@ def main():
                 refined_html = send_message_to_model(refine_html_prompt)
                 st.write(refined_html, language='html')
 
-            # حفظ HTML في ملف مؤقت
-            with open("temp.html", "w", encoding="utf-8") as f:
-                f.write(refined_html)
-
             # تحويل HTML إلى PDF
-            pdfkit.from_file("temp.html", "translate.pdf")
+            with open("temp.html", "w", encoding="utf-8") as f: # صحح المسافة البادئة هنا
+                f.write(refined_html)
+            pdfkit.from_file("temp.html", "translate.pdf") 
 
             # توفير خيارات التحميل
             col1, col2 = st.columns(2)
