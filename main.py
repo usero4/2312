@@ -40,7 +40,7 @@ chat_session = model.start_chat(history=[])
 def send_message_to_model(message, text_content):
     text_input = {
         'mime_type': 'text/plain',
-        'data': Path(text_path).read_text()
+        'data': Path(text_content).read_text()
     }
     response = chat_session.send_message([message, text_input])
     return response.text
