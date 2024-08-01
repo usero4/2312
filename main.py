@@ -50,13 +50,13 @@ def main():
     st.title("Gemini 1.5 Pro, Text to Code 👨‍💻 ")
     st.subheader('Made with ❤️ by [Skirano](https://x.com/skirano)')
 
-    uploaded_file = st.file_uploader("Choose a text file...", type=["txt"])
+    text_input = st.text_area("Enter your text here:")
 
-    if uploaded_file is not None:
+    if text_input is not None:
         try:
-            # Save the uploaded text file temporarily
+            # Save the text file file temporarily
             temp_text_path = pathlib.Path("temp_text.txt")
-            temp_text_path.write_text(uploaded_file.read().decode("utf-8"))
+            temp_text_path.write_text(text_input.read().decode("utf-8"))
 
             # Generate code from text
             if st.button("ترجمة النصوص"):
