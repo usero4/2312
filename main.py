@@ -5,7 +5,7 @@ import os
 from weasyprint import HTML
 
 # تكوين مفتاح الـ API من متغير بيئي
-API_KEY = os.getenv('GOOGLE_API_KEY')
+API_KEY = 'AIzaSyC0US-sr4H1Y-BS4vFuGsB81Oxaqy6pixA'
 if not API_KEY:
     raise ValueError("API key is not set. Please set the GOOGLE_API_KEY environment variable.")
 genai.configure(api_key=API_KEY)
