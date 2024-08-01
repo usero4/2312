@@ -48,14 +48,13 @@ def main():
 
     text_file = st.text_area("set your text here")
 
-    if text_file is not None:
+    if st.button("Code UI"):
         try:      
-                   
+          
             # Generate UI description
-            if st.button("Code UI"):
                 st.write("🧑‍💻 Looking at your UI...")
                 prompt = "ترجم التالي إلى العربية"
-                description = send_message_to_model((prompt, text_file))
+                description = send_message_to_model(prompt)
                 st.write(description)
 
                 # Refine the description
