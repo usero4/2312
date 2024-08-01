@@ -58,7 +58,7 @@ def main():
             if st.button("Code UI"):
                 st.write("🧑‍💻 Looking at your UI...")
                 prompt = "ترجم التالي إلى العربية"
-                description = send_message_to_model(prompt)
+                description = send_message_to_model(prompt, temp_text_path)
                 st.write(description)
 
                 # Refine the description
