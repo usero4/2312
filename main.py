@@ -91,8 +91,7 @@ def main():
                 st.write(refined_html, language='html')
 
             # تحويل HTML إلى PDF
-            with open("temp.html", "w", encoding="utf-8") as f:
-                f.write(refined_html)
+            with open("temp.html", "w", encoding="utf-8") as f:f.write(refined_html)
             pdfkit.from_file("temp.html", "translate.pdf") 
             # توفير خيارات التحميل
             col1, col2 = st.columns(2)
