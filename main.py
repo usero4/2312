@@ -53,7 +53,7 @@ def main():
           
             # Generate UI description
                 st.write("🧑‍💻 Looking at your UI...")
-                prompt = "ترجم التالي <text_file> إلى العربية"
+                prompt = f"translate to Arabic\"{text_file}\"" 
                 description = send_message_to_model(prompt)
                 st.write(description)
 
