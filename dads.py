@@ -1,9 +1,9 @@
 import streamlit as st
 import pathlib
-import PyPDF2
+from PIL import Image  # لا نحتاجها في هذا السيناريو
 import google.generativeai as genai
 
-# تكوين مفتاح الـ API مباشرة في البرنامج
+# تكوين مفتاح الـ API مباشرة في البرنامج (يجب تجنب هذا في الإنتاج)
 API_KEY = 'AIzaSyDMlyV1-x32KlZa3Q-bUg2qIA3HkYrMMRY'
 genai.configure(api_key=API_KEY)
 
@@ -11,7 +11,7 @@ genai.configure(api_key=API_KEY)
 generation_config = {
     "temperature": 1,  # درجة الحرارة، تحكم تباين الإخراج
     "top_p": 0.95,  # أعلى احتمال تراكمي
-    "top_k": 64,  # أعلى قيمة k
+    "top_k": 14,  # أعلى قيمة k
     "max_output_tokens": 8192,  # الحد الأقصى لعدد التوكنات في الإخراج
     "response_mime_type": "text/plain",  # نوع MIME للاستجابة
 }
@@ -44,31 +44,45 @@ def send_message_to_model(message):
 
 # تطبيق Streamlit
 def main():
-    st.title("PDF Translator with Gemini 1.5 Pro")
-    st.subheader('Made with ❤️ by [Your Name](https://your-profile.com)')
+    st.title("Gemini 1.5 Pro, UI to Code 👨‍💻 ")
+    st.subheader('Made with ❤️ by [Skirano](https://x.com/skirano)')
 
-    uploaded_file = st.file_uploader("Choose a PDF file...", type=["pdf"])
+    user_input = st.text_area("Enter your text here...")
 
-    if uploaded_file is not None:
+    if user_input:
         try:
-            # حفظ الملف المرفوع بشكل مؤقت
-            temp_pdf_path = pathlib.Path("temp_pdf.pdf")
-            temp_pdf_path.write_bytes(uploaded_file.read())
+            # إنشاء وصف لواجهة المستخدم
+            if st.button("Code UI"):
+                st.write("🧑‍💻 Looking at your UI...")
+                prompt = "قم بوصف النص."
+                description = send_message_to_model(prompt)
+                st.write(description)
 
-            # قراءة المحتوى من ملف PDF
-            pdf_reader = PyPDF2.PdfFileReader(str(temp_pdf_path))
-            text = ""
-            for page_num in range(pdf_reader.numPages):
-                page = pdf_reader.getPage(page_num)
-                text += page.extract_text()
+                # تنقيح الوصف
+                st.write("🔍 Refining description with visual comparison...")
+                refine_prompt = f"قم بصناعة قاموس للنص: {description}"
+                refined_description = send_message_to_model(refine_prompt)
+                st.write(refined_description)
 
-            # توليد وصف للمحتوى
-            if st.button("Translate PDF"):
-                st.write("🧑‍💻 Analyzing PDF content...")
-                prompt = f"Translate the following text from English to Spanish: {text}"
-                translation = send_message_to_model(prompt)
-                st.write(translation)
+                # إنشاء HTML
+                st.write("🛠️ Generating website...")
+                html_prompt = f"قم بالترجمة إلى العربية: {refined_description}"
+                initial_html = send_message_to_model(html_prompt)
+                st.code(initial_html, language='html')
 
+                # تنقيح HTML
+                st.write("🔧 Refining website...")
+                refine_html_prompt = f"قم بالتأكد أن الترجمة قد تمت إذا كانت ناقصة فأكملها وإن كانت كاملة فقل هي كاملة: {initial_html}"
+                refined_html = send_message_to_model(refine_html_prompt)
+                st.code(refined_html, language='html')
+
+                # حفظ HTML المنقح في ملف
+                with open("index.html", "w") as file:
+                    file.write(refined_html)
+                st.success("HTML file 'index.html' has been created.")
+
+                # توفير رابط تنزيل لملف HTML
+                st.download_button(label="Download HTML", data=refined_html, file_name="index.html", mime="text/html")
         except Exception as e:
             st.error(f"An error occurred: {e}")
 
