@@ -6,6 +6,11 @@ import google.generativeai as genai
 API_KEY = 'AIzaSyDMlyV1-x32KlZa3Q-bUg2qIA3HkYrMMRY'
 genai.configure(api_key=API_KEY)
 
+def check_for_stop(user_input):
+    if user_input.lower() == "stop translation":
+        st.warning("تم إيقاف الترجمة بناءً على طلبك.")
+        raise StopIteration
+        
 # تكوين الإنتاج
 generation_config = {
     "temperature": 1,  # درجة الحرارة، تحكم تباين الإخراج
@@ -53,12 +58,14 @@ def main():
         try:      
             
             # Generate UI description
+                check_for_stop(text_file)  
                 st.write("🧑‍💻 Looking at your UI...")
                 prompt = f"translate to :{target_lang}, {text_file}" 
                 description = send_message_to_model(prompt)
                 st.write(description)
 
                 # Refine the description
+                
                 st.write("🔍 Refining description with visual comparison...")
                 refine_prompt = f"Compare the described UI elements with the provided text and identify any missing elements or inaccuracies. Also Describe the color of the elements. Provide a refined and accurate description of the UI elements based on this comparison. Here is the initial description: {description}"
                 refined_description = send_message_to_model(refine_prompt)
