@@ -26,9 +26,6 @@ safety_settings = [
 # Model name
 MODEL_NAME = "gemini-1.5-pro-latest"
 
-# Framework selection (e.g., Tailwind, Bootstrap, etc.)
-framework = "Regular CSS use flex grid etc"  # Change this to "Bootstrap" or any other framework as needed
-
 # Create the model
 model = genai.GenerativeModel(
     model_name=MODEL_NAME,
@@ -62,9 +59,9 @@ def main():
             temp_text_path.write_text(uploaded_file.read().decode("utf-8"))
 
             # Generate code from text
-            if st.button("Generate Code"):
-                st.write("🧑‍💻 Processing your text...")
-                prompt = "Generate code based on the following text description."
+            if st.button("ترجمة النصوص"):
+                st.write("🧑‍💻 جاري الترجمة...")
+                prompt = "قم بالترجمة إلى العربية."
                 code_output = send_message_to_model(prompt, temp_text_path)
                 st.write(code_output)
 
