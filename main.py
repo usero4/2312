@@ -1,49 +1,47 @@
 import streamlit as st
-from pathlib import Path
+import pathlib
+from PIL import Image  # لا نحتاجها في هذا السيناريو
 import google.generativeai as genai
 
-# Configure the API key directly in the script
-API_KEY = 'AIzaSyC0US-sr4H1Y-BS4vFuGsB81Oxaqy6pixA'
+# تكوين مفتاح الـ API مباشرة في البرنامج (يجب تجنب هذا في الإنتاج)
+API_KEY = 'AIzaSyDMlyV1-x32KlZa3Q-bUg2qIA3HkYrMMRY'
 genai.configure(api_key=API_KEY)
 
-# Generation configuration
+# تكوين الإنتاج
 generation_config = {
-    "temperature": 1,
-    "top_p": 0.95,
-    "top_k": 64,
-    "max_output_tokens": 8192,
-    "response_mime_type": "text/plain",
+    "temperature": 1,  # درجة الحرارة، تحكم تباين الإخراج
+    "top_p": 0.95,  # أعلى احتمال تراكمي
+    "top_k": 14,  # أعلى قيمة k
+    "max_output_tokens": 8192,  # الحد الأقصى لعدد التوكنات في الإخراج
+    "response_mime_type": "text/plain",  # نوع MIME للاستجابة
 }
 
-# Safety settings
+# إعدادات الأمان
 safety_settings = [
-    {"category": "HARM_CATEGORY_HARASSMENT", "threshold": "BLOCK_NONE"},
-    {"category": "HARM_CATEGORY_HATE_SPEECH", "threshold": "BLOCK_NONE"},
-    {"category": "HARM_CATEGORY_SEXUALLY_EXPLICIT", "threshold": "BLOCK_NONE"},
-    {"category": "HARM_CATEGORY_DANGEROUS_CONTENT", "threshold": "BLOCK_NONE"},
+    {"category": "HARM_CATEGORY_HARASSMENT", "threshold": "BLOCK_NONE"},  # عتبة للمضايقة
+    {"category": "HARM_CATEGORY_HATE_SPEECH", "threshold": "BLOCK_NONE"},  # عتبة للكلام الكراهية
+    {"category": "HARM_CATEGORY_SEXUALLY_EXPLICIT", "threshold": "BLOCK_NONE"},  # عتبة للمحتوى الجنسي الصريح
+    {"category": "HARM_CATEGORY_DANGEROUS_CONTENT", "threshold": "BLOCK_NONE"},  # عتبة للمحتوى الخطر
 ]
 
-# Model name
-MODEL_NAME = "gemini-1.5-flash"
+# اسم النموذج
+MODEL_NAME = "gemini-1.5-pro-latest"
 
-# Create the model
+# إنشاء النموذج
 model = genai.GenerativeModel(
     model_name=MODEL_NAME,
     safety_settings=safety_settings,
     generation_config=generation_config,
 )
 
-# Start a chat session
+# بدء جلسة الدردشة
 chat_session = model.start_chat(history=[])
 
-# Function to send a message to the model
-def send_message_to_model(message, text_content):
-    text_input = {
-        'mime_type': 'text/plain',
-        'data': Path(text_content).read_text()
-    }
-    response = chat_session.send_message([message, text_input])
+# دالة لإرسال رسالة إلى النموذج
+def send_message_to_model(message):
+    response = chat_session.send_message([message])
     return response.text
+
 
 # Streamlit app
 def main():
