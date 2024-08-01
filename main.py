@@ -1,5 +1,5 @@
 import streamlit as st
-from pathlib import path
+from pathlib import Path
 import google.generativeai as genai
 
 # تكوين مفتاح الـ API مباشرة في البرنامج (يجب تجنب هذا في الإنتاج)
