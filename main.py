@@ -55,9 +55,9 @@ def main():
     if text_file is not None:
         try:      
 
-            # Save the text text temporarily
+            # Save the text temporarily
             temp_text_path = pathlib.Path("temp_text.txt")
-            text.write(text_file)
+            temp_text_path.write(text_file)
 
             # Generate UI description
             if st.button("Code UI"):
