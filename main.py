@@ -5,11 +5,6 @@ import google.generativeai as genai
 # تكوين مفتاح الـ API مباشرة في البرنامج (يجب تجنب هذا في الإنتاج)
 API_KEY = 'AIzaSyDMlyV1-x32KlZa3Q-bUg2qIA3HkYrMMRY'
 genai.configure(api_key=API_KEY)
-
-def check_for_stop(user_input):
-    if st.button("stop translation"):
-        st.warning("تم إيقاف الترجمة بناءً على طلبك.")
-        raise StopIteration
         
 # تكوين الإنتاج
 generation_config = {
@@ -46,6 +41,15 @@ def send_message_to_model(message):
     response = chat_session.send_message([message])
     return response.text
 
+# تعريف استثناء مخصص لإيقاف الترجمة
+class StopTranslation(Exception):
+    pass
+
+# دالة للتحقق من طلب إيقاف الترجمة
+def check_for_stop():
+    if st.button("stop translation"):
+        raise StopTranslation("تم إيقاف الترجمة بناءً على طلبك.")
+
 # Streamlit app
 def main():
     st.title("Gemini 1.5 Pro, UI to Code 👨‍💻 ")
@@ -58,26 +62,28 @@ def main():
         try:      
             
             # Generate UI description
-                check_for_stop(text_file)  
+                check_for_stop()  # التحقق من طلب الإيقاف 
                 st.write("🧑‍💻 Looking at your UI...")
                 prompt = f"translate to :{target_lang}, {text_file}" 
                 description = send_message_to_model(prompt)
                 st.write(description)
 
                 # Refine the description
-                
+                check_for_stop()  # التحقق من طلب الإيقاف
                 st.write("🔍 Refining description with visual comparison...")
                 refine_prompt = f"Compare the described UI elements with the provided text and identify any missing elements or inaccuracies. Also Describe the color of the elements. Provide a refined and accurate description of the UI elements based on this comparison. Here is the initial description: {description}"
                 refined_description = send_message_to_model(refine_prompt)
                 st.write(refined_description)
 
                 # Generate HTML
+                check_for_stop()  # التحقق من طلب الإيقاف
                 st.write("🛠️ Generating website...")
                 html_prompt = f"Create an HTML file based on the following UI description, using the UI elements described in the previous response. Include CSS within the HTML file to style the elements. Make sure the colors used are the same as the original UI. The UI needs to be responsive and mobile-first, matching the original UI as closely as possible. Do not include any explanations or comments. Avoid using ```html. and ``` at the end. ONLY return the HTML code with inline CSS. Here is the refined description: {refined_description}"
                 initial_html = send_message_to_model(html_prompt)
                 st.write(initial_html, language='html')
 
                 # Refine HTML
+                check_for_stop()  # التحقق من طلب الإيقاف
                 st.write("🔧 Refining website...")
                 refine_html_prompt = f"Validate the following HTML code based on the UI description and text and provide a refined version of the HTML code with CSS that improves accuracy, responsiveness, and adherence to the original design. ONLY return the refined HTML code with inline CSS. Avoid using ```html. and ``` at the end. Here is the initial HTML: {initial_html}"
                 refined_html = send_message_to_model(refine_html_prompt)
@@ -91,6 +97,8 @@ def main():
                 # Provide download link for HTML
                 st.download_button(label="Download translate", data=refined_html.encode(), file_name="translate.txt", mime="text/plain")
 
+        except StopTranslation as e:
+            st.warning(str(e))  # عرض رسالة الإيقاف
         except Exception as e:
             st.error(f"An error occurred: {e}")
 
