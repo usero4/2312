@@ -1,9 +1,15 @@
 import streamlit as st
 import pathlib
 import google.generativeai as genai
+import os
+import base64
 
-# Configure the API key directly in the script
-API_KEY = 'AIzaSyDMlyV1-x32KlZa3Q-bUg2qIA3HkYrMMRY'
+# Load API key from environment variable
+API_KEY = os.getenv('AIzaSyDMlyV1-x32KlZa3Q-bUg2qIA3HkYrMMRY')
+if not API_KEY:
+    st.error("API key not found. Please set the GENAI_API_KEY environment variable.")
+    st.stop()
+
 genai.configure(api_key=API_KEY)
 
 # Generation configuration
@@ -45,6 +51,13 @@ def send_message_to_model(message, text_path):
     response = chat_session.send_message([message, text_input])
     return response.text
 
+# Function to fix Base64 padding
+def fix_base64_padding(base64_string):
+    missing_padding = len(base64_string) % 4
+    if missing_padding != 0:
+        base64_string += '=' * (4 - missing_padding)
+    return base64_string
+
 # Streamlit app
 def main():
     st.title("Gemini 1.5 Pro, Text to Code 👨‍💻 ")
@@ -73,6 +86,7 @@ def main():
 
                 # Generate HTML
                 st.write("🛠️ Generating HTML...")
+                framework = st.selectbox("Select a framework", ["Bootstrap", "Tailwind"])
                 html_prompt = f"Create an HTML file based on the refined code. Include {framework} CSS within the HTML file to style the elements. Make sure the HTML is responsive and mobile-first. Do not include any explanations or comments. Avoid using ```html. and ``` at the end. ONLY return the HTML code with inline CSS. Here is the refined code: {refined_code}"
                 initial_html = send_message_to_model(html_prompt, temp_text_path)
                 st.code(initial_html, language='html')
@@ -92,6 +106,10 @@ def main():
                 st.download_button(label="Download HTML", data=refined_html, file_name="index.html", mime="text/html")
         except Exception as e:
             st.error(f"An error occurred: {e}")
+        finally:
+            # Clean up the temporary file
+            if temp_text_path.exists():
+                temp_text_path.unlink()
 
 if __name__ == "__main__":
     main()
