@@ -2,7 +2,7 @@ import streamlit as st
 from pathlib import Path
 import google.generativeai as genai
 import os
-from weasyprint import HTML, CSS
+from weasyprint import HTML
 
 # تكوين مفتاح الـ API من متغير بيئي
 API_KEY = os.getenv('GOOGLE_API_KEY')
