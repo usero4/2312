@@ -37,11 +37,6 @@ model = genai.GenerativeModel(
 # بدء جلسة الدردشة
 chat_session = model.start_chat(history=[])
 
-# دالة لإرسال رسالة إلى النموذج
-def send_message_to_model(message):
-    response = chat_session.send_message([message])
-    return response.text
-
 # تطبيق Streamlit
 def main():
     st.title("Gemini 1.5 Pro, UI to Code 👨‍💻 ")
