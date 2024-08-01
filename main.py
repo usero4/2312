@@ -1,5 +1,5 @@
 import streamlit as st
-import pathlib
+from pathlib import path
 from PIL import Image  # لا نحتاجها في هذا السيناريو
 import google.generativeai as genai
 
